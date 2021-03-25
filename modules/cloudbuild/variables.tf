@@ -149,6 +149,12 @@ variable "terraform_validator_release" {
   default     = "2020-09-24"
 }
 
+variable "terraform_validator_bucket" {
+  description = "Default terraform-validator bucket."
+  type        = string
+  default     = "terraform-validator"
+}
+
 variable "cloudbuild_plan_filename" {
   description = "Path and name of Cloud Build YAML definition used for terraform plan."
   type        = string

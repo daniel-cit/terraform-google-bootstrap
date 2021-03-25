@@ -18,10 +18,12 @@ FROM gcr.io/cloud-builders/gcloud-slim
 ARG TERRAFORM_VERSION=0.13.6
 ARG TERRAFORM_VERSION_SHA256SUM=55f2db00b05675026be9c898bdd3e8230ff0c5c78dd12d743ca38032092abfc9
 ARG TERRAFORM_VALIDATOR_RELEASE=2020-09-24
+ARG TERRAFORM_VALIDATOR_BUCKET=terraform-validator
 
 ENV ENV_TERRAFORM_VERSION=$TERRAFORM_VERSION
 ENV ENV_TERRAFORM_VERSION_SHA256SUM=$TERRAFORM_VERSION_SHA256SUM
 ENV ENV_TERRAFORM_VALIDATOR_RELEASE=$TERRAFORM_VALIDATOR_RELEASE
+ENV ENV_TERRAFORM_VALIDATOR_BUCKET=$TERRAFORM_VALIDATOR_BUCKET
 
 RUN apt-get update && \
    /builder/google-cloud-sdk/bin/gcloud -q components install alpha beta && \
@@ -32,7 +34,7 @@ RUN apt-get update && \
     sha256sum -c terraform_SHA256SUMS --status && \
     unzip terraform_linux_amd64.zip -d /builder/terraform && \
     rm -f terraform_linux_amd64.zip && \
-    gsutil cp gs://er8934834983h4983ht983yht83398t34908t34908t3/releases/${ENV_TERRAFORM_VALIDATOR_RELEASE}/terraform-validator-linux-amd64 /builder/terraform/terraform-validator && \
+    gsutil cp gs://${TERRAFORM_VALIDATOR_BUCKET}/releases/${ENV_TERRAFORM_VALIDATOR_RELEASE}/terraform-validator-linux-amd64 /builder/terraform/terraform-validator && \
     chmod +x /builder/terraform/terraform-validator && \
     apt-get remove --purge -y curl unzip && \
     apt-get --purge -y autoremove && \
